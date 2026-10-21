@@ -1,3 +1,5 @@
+import pickle
+
 import streamlit as st
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -53,3 +55,34 @@ def convert_data_to_dataframe(iris):
     df["Espécie"] = iris.target_names[iris.target]
     df["Espécie"] = "Iris " + df["Espécie"]
     return df
+
+
+def write_user_data_as_table(df):
+    userInputs = pd.DataFrame(
+        {
+            "Comprimento": {
+                "Pétala": df["Comprimento da pétala"][0],
+                "Sépala": df["Comprimento da sépala"][0],
+            },
+            "Largura": {
+                "Pétala": df["Largura da pétala"][0],
+                "Sépala": df["Largura da sépala"][0],
+            },
+        }
+    )
+
+    return userInputs
+
+
+def make_prediction(df):
+    load_clf = pickle.load(open("./model/iris_rfc.pkl", "rb"))
+
+    # ---- Aplicação do classificador aos dados inseridos ----
+    prediction = load_clf.predict(df.values)
+    prediction_proba = load_clf.predict_proba(df.values)
+
+    return (prediction, prediction_proba)
+
+
+def set_title(level, align, text):
+    return f"<{level} style='text-align:{align};'>{text}</{level}>"
