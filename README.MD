@@ -37,7 +37,7 @@ The bottom one presents two graphs containing the data used in training and the 
 - Jupyter notebook
 
 ## Project Structure
-project/
+    project/
     ├── .streamlit/
     |    └── config.toml
     |
